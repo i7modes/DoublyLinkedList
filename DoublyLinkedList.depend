@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1711661902 source:c:\users\i7mod\documents\codeblocks\doublylinkedlist\main.c
+	<stdio.h>
+	<stdlib.h>
+

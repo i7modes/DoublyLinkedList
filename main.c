@@ -8,16 +8,16 @@ struct node {
 };
 
 struct node* MakeEmpty(struct node*);
-void Insert(int, struct node*, struct node*, struct node*);
-void PrintList(struct node*);
-int IsLast(struct node*, struct node*);
-void Delete(int, struct node*);
-struct node* FindPrevious(int, struct node*);
-struct node* Find(int, struct node*);
 int IsEmpty(struct node*);
-int size(struct node*);
+int IsLast(struct node*, struct node*);
+struct node* Find(int, struct node*);
+struct node* FindPrevious(int, struct node*);
+void Delete(int, struct node*);
+void Insert(int, struct node*, struct node*, struct node*);
+void InsertLast(int, struct node*);
+void PrintList(struct node*);
 void DeleteList(struct node*);
-
+int size(struct node*);
 
 int main(){
     struct node* MyList = MakeEmpty(NULL);
@@ -28,7 +28,8 @@ int main(){
     Insert(10, MyList, tail, MyList);
     Insert(20, MyList, tail, MyList->Next);
     Insert(30, MyList, tail, MyList->Next->Next);
-    Insert(40, MyList, tail, tail->Previous);
+    //Insert(40, MyList, tail, tail->Previous);
+    //InsertLast(40, MyList);
     PrintList(MyList);
 
     printf("%d\n", IsEmpty(MyList));
@@ -76,6 +77,47 @@ struct node* MakeEmpty(struct node* head) {
     return head;
 }
 
+int IsEmpty(struct node* L) {
+    return L->Next->Next == NULL;
+}
+
+int IsLast(struct node* P, struct node* L) {
+    return P->Next->Next == NULL;
+}
+
+struct node* Find(int X, struct node* L){
+    struct node* P = L->Next;
+    while (P != NULL && P->Data != X) {
+        P = P->Next;
+    }
+
+    return P;
+}
+
+struct node* FindPrevious(int X, struct node* L){
+    struct node* P = L->Next;
+
+    while (P->Next != NULL && P->Data != X) {
+        P = P->Next;
+    }
+
+    return P;
+}
+
+void Delete(int X, struct node* L){
+     struct node* P;
+     struct node* temp;
+
+     P = FindPrevious(X, L);
+
+
+     if(!IsLast(P, L) ){
+         temp = P->Next;
+         P->Next = temp->Next;
+         free(temp);
+     }
+}
+
 void Insert(int X, struct node* head, struct node* tail, struct node* P) {
     struct node* temp = (struct node*)malloc(sizeof(struct node));
 
@@ -96,6 +138,27 @@ void Insert(int X, struct node* head, struct node* tail, struct node* P) {
     P->Next = temp;
 }
 
+void InsertLast(int X, struct node* L) {
+    struct node* temp;
+    struct node* P = L;
+    temp = (struct node*)malloc(sizeof(struct node));
+
+    if (temp == NULL) {
+        printf("Out of memory!\n");
+        exit(1);
+    }
+
+    temp->Data = X;
+    temp->Next = NULL;
+
+    while(P->Next != NULL){
+        P = L->Next;
+    }
+
+    temp->Previous = P;
+    P->Next = temp;
+}
+
 void PrintList(struct node* L) {
     struct node* P = L->Next;
     if(IsEmpty(L)){
@@ -108,48 +171,6 @@ void PrintList(struct node* L) {
     }
     printf("\n");
   }
-}
-
-int IsEmpty(struct node* L) {
-    return L->Next->Next == NULL;
-}
-
-struct node* Find(int X, struct node* L){
-    struct node* P = L->Next;
-    while (P != NULL && P->Data != X) {
-        P = P->Next;
-    }
-
-    return P;
-}
-
-
-struct node* FindPrevious(int X, struct node* L){
-    struct node* P = L->Next;
-
-    while (P->Next != NULL && P->Data != X) {
-        P = P->Next;
-    }
-
-    return P;
-}
-
-int IsLast(struct node* P, struct node* L) {
-    return P->Next->Next == NULL;
-}
-
-void Delete(int X, struct node* L){
-     struct node* P;
-     struct node* temp;
-
-     P = FindPrevious(X, L);
-
-
-     if(!IsLast(P, L) ){
-         temp = P->Next;
-         P->Next = temp->Next;
-         free(temp);
-     }
 }
 
 void DeleteList(struct node* L) {

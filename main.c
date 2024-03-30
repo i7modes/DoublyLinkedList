@@ -29,7 +29,7 @@ int main(){
     Insert(20, MyList, tail, MyList->Next);
     Insert(30, MyList, tail, MyList->Next->Next);
     //Insert(40, MyList, tail, tail->Previous);
-    //InsertLast(40, MyList);
+    InsertLast(40, MyList);
     PrintList(MyList);
 
     printf("%d\n", IsEmpty(MyList));
@@ -149,14 +149,15 @@ void InsertLast(int X, struct node* L) {
     }
 
     temp->Data = X;
-    temp->Next = NULL;
 
     while(P->Next != NULL){
-        P = L->Next;
+        P = P->Next;
     }
 
-    temp->Previous = P;
-    P->Next = temp;
+    temp->Next = P;
+    temp->Previous = P->Previous;
+    P->Previous->Next = temp;
+    P->Previous = temp;
 }
 
 void PrintList(struct node* L) {

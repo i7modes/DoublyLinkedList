@@ -28,7 +28,6 @@ int main(){
     Insert(10, MyList, tail, MyList);
     Insert(20, MyList, tail, MyList->Next);
     Insert(30, MyList, tail, MyList->Next->Next);
-    //Insert(40, MyList, tail, tail->Previous);
     InsertLast(40, MyList);
     PrintList(MyList);
 
